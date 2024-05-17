@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Calorías</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+    }
+    .container {
+        width: 400px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    label {
+        margin-bottom: 10px;
+    }
+    input[type="number"] {
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+    input[type="submit"] {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Calculadora de Calorías</h1>
+    <form id="caloriesForm">
+        <label for="category">Selecciona una categoría:</label>
+        <select id="category" name="category">
+            <option value="alimentos">Alimentos</option>
+            <option value="bebidas">Bebidas</option>
+        </select>
+        <label for="item">Selecciona un alimento o bebida:</label>
+        <select id="item" name="item">
+            <!-- Aquí puedes agregar opciones para alimentos y bebidas -->
+        </select>
+        <label for="quantity">Cantidad (en Gramos o mililitros):</label>
+        <input type="number" id="quantity" name="quantity" min="0" step="0.01" required>
+        <input type="submit" value="Calcular Calorías">
+    </form>
+    <div id="result"></div>
+</div>
+
+<script>
+        const caloriesData = {
+    alimentos: {
+        arroz: 350, // Calorías por cada 100 gramos
+        pollo: 165,
+        platano: 105,
+        yuca: 150,
+        auyama: 45,
+        guineos: 90,
+        batata: 90,
+        ñame: 160,
+        tostones: 200,
+        mangu: 140,
+        mani: 560, 
+        // Agregar más alimentos aquí...
+    },
+    bebidas: {
+        Leche: 70,
+        morirSoñando: 100, // Calorías por cada 200 mililitros
+        jugoNaranja: 45,
+        jugoPina: 50,
+        jugoGuayaba: 60,
+        jugoMango: 60,
+        jugoChinola: 50,
+        jugoTamarindo: 70,
+        jugoLimón: 30,
+    
+        // Agregar más bebidas aquí...
+    }
+};
+
+const form = document.getElementById('caloriesForm');
+const resultDiv = document.getElementById('result');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const category = form.category.value;
+    const item = form.item.value;
+    const quantity = parseFloat(form.quantity.value);
+    let calories = 0;
+
+    if (category === 'alimentos') {
+        calories = (caloriesData.alimentos[item] / 100) * quantity; // Cálculo en gramos
+    } else if (category === 'bebidas') {
+        calories = (caloriesData.bebidas[item] / 100) * quantity;
+    }
+
+    resultDiv.textContent = `Consumiste aproximadamente ${calories.toFixed(2)} calorías.`;
+});
+
+// Actualizar opciones de alimentos o bebidas según la categoría seleccionada
+form.category.addEventListener('change', function() {
+    const category = form.category.value;
+    const items = Object.keys(caloriesData[category]);
+    const itemSelect = form.item;
+    itemSelect.innerHTML = '';
+    items.forEach(function(item) {
+        const option = document.createElement('option');
+        option.value = item;
+        option.textContent = item.charAt(0).toUpperCase() + item.slice(1); // Capitalizar primera letra
+        itemSelect.appendChild(option);
+    });
+});
+
+
+
+
+
+
+    // Actualizar opciones de alimentos o bebidas según la categoría seleccionada
+    form.category.addEventListener('change', function() {
+        const category = form.category.value;
+        const items = Object.keys(caloriesData[category]);
+        const itemSelect = form.item;
+        itemSelect.innerHTML = '';
+        items.forEach(function(item) {
+            const option = document.createElement('option');
+            option.value = item;
+            option.textContent = item.charAt(0).toUpperCase() + item.slice(1); // Capitalizar primera letra
+            itemSelect.appendChild(option);
+        });
+    });
+</script>
+</body>
+</html>
